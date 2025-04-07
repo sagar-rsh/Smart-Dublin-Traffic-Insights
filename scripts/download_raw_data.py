@@ -1,6 +1,7 @@
 import os
 import requests
 
+# Define download directory
 DOWNLOAD_DIR = "../data/raw"
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
@@ -12,21 +13,16 @@ files = {
 }
 
 def download_files():
-	# Download and save files
-	for name, url in files.items():
-		file_path = os.path.join(DOWNLOAD_DIR, f"{name}.csv")
-
-		print(f"Downloading {name}...")
-		response = requests.get(url)
-		if response.ok:
-			with open(file_path, "wb") as f:
-				f.write(response.content)
-			print(f"Saved: {file_path}")
-		else:
-			print(f"Failed to download {name} from {url}")
-
-def main():
-	download_files()
+    # Download and save files
+    for name, url in files.items():
+        file_path = os.path.join(DOWNLOAD_DIR, f"{name}.csv")
+        response = requests.get(url)
+        if response.status_code == 200:
+            with open(file_path, "wb") as f:
+                f.write(response.content)
+            print(f"Successfully downloaded and saved: {file_path}")
+        else:
+            print(f"Failed to download {name} from {url}")
 
 if __name__ == "__main__":
-    main()
+    download_files()
