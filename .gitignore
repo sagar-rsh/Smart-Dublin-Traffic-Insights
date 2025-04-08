@@ -5,7 +5,8 @@
 *.parquet
 *.ipynb
 .aws
-
+aws
+test.*
 # Local .terraform directories
 **/.terraform/*
 
