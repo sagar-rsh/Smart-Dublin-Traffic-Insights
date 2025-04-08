@@ -4,6 +4,7 @@
 *.json
 *.parquet
 *.ipynb
+.aws
 
 # Local .terraform directories
 **/.terraform/*
