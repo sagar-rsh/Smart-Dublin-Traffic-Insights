@@ -1,0 +1,86 @@
+version: 2
+
+sources:
+  - name: public
+    tables:
+      - name: trips_raw
+        description: "Raw data of trips with route, timestamps, and STT values."
+        columns:
+          - name: timestamp
+            description: "Timestamp of the trip."
+            tests:
+              - not_null
+          - name: route
+            description: "Route identifier."
+            tests:
+              - not_null
+          - name: link
+            description: "Link identifier."
+            tests:
+              - not_null
+          - name: direction
+            description: "Direction of travel (1 = North, 2 = South, etc.)."
+            tests:
+              - not_null
+          - name: stt
+            description: "Speed or travel time (in seconds)."
+            tests:
+              - not_null
+          - name: acc_stt
+            description: "Accumulated travel time."
+            tests:
+              - not_null
+          - name: tcs1
+            description: "Junction ID at the start."
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('junctions')
+                  field: SiteID
+                  severity: warn
+          - name: tcs2
+            description: "Junction ID at the end."
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('junctions')
+                  field: SiteID
+                  severity: warn
+      - name: routes
+        description: "Raw data for routes, including geometries and route details."
+        columns:
+          - name: route
+            description: "Route identifier."
+            tests:
+              - not_null
+          - name: link
+            description: "Link identifier."
+            tests:
+              - not_null
+          - name: direction
+            description: "Direction of the route."
+            tests:
+              - not_null
+          - name: tcs1
+            description: "Junction ID at the start."
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('junctions')
+                  field: SiteID
+                  severity: warn
+          - name: tcs2
+            description: "Junction ID at the end."
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('junctions')
+                  field: SiteID
+                  severity: warn
+          - name: wkt
+            description: "Well-Known Text (WKT) geometry representation of the route."
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ["string"]
+                  severity: warn
