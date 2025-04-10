@@ -14,7 +14,7 @@ with trips_raw as (
 
 -- Normalize travel times (eg: remove outliers or cap extreme values)
 select
-    trip_timestamp,
+    trip_timestamp::varchar as trip_timestamp,
     route,
     link,
     direction,
