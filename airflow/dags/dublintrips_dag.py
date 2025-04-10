@@ -40,7 +40,7 @@ with DAG(
     task_run_dbt_job = DbtCloudRunJobOperator(
         task_id='run_dbt_cloud_job',
         dbt_cloud_conn_id='dublintrips_conn',
-        job_id=70471823452752,
+        job_id=70471823452790,
         check_interval=60,
         timeout=300
     )
