@@ -23,7 +23,7 @@ with trip_data as (
         on t.tcs1 = j1.junction_id
     left join {{ ref('dim_junctions') }} j2
         on t.tcs2 = j2.junction_id
-    where t.stt is not null or t.stt is not null
+    where t.stt is not null
 )
 
 -- Aggregation layer for daily statistics
@@ -36,10 +36,12 @@ select
     max(td.stt) as max_travel_time,
     min(td.stt) as min_travel_time,
     sum(td.acc_stt) as total_accumulated_stt,
-    td.trip_type
+    td.trip_type,
+    td.junction_start,
+    td.junction_end
 from trip_data td
 left join {{ ref('dim_time') }} dt
     -- Extract the date and time components from both trip_timestamp and dim_time
     on {{ parse_custom_timestamp('td.trip_timestamp', 'date') }} = dt.date
     and {{ parse_custom_timestamp('td.trip_timestamp', 'time') }} = dt.time
-group by dt.date, dt.time, td.route, td.trip_type
+group by dt.date, dt.time, td.route, td.trip_type, td.junction_start, td.junction_end
