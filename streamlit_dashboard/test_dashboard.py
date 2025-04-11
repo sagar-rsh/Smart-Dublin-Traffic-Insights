@@ -42,7 +42,7 @@ selected_routes = st.multiselect("Select Routes", routes, default=routes[:3])
 filtered_df = df[df["route"].isin(selected_routes)]
 
 # Charts
-st.subheader("📈 Average Travel Time Over Time")
+st.subheader("📈 Average Travel Time")
 st.line_chart(filtered_df.groupby("date")["avg_travel_time"].mean())
 
 st.subheader("📊 Trip Count by Route")

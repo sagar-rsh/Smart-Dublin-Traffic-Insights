@@ -10,6 +10,7 @@ test.*
 # Local .terraform directories
 **/.terraform/*
 .env
+.streamlit
 
 # .tfstate files
 *.tfstate
