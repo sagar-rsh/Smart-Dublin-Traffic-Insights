@@ -4,3 +4,4 @@ python-dotenv
 pandas
 sqlalchemy-redshift
 plotly
+setuptools
