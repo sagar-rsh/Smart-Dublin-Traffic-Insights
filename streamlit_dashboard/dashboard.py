@@ -57,7 +57,7 @@ def load_data():
         with st.spinner("Loading trip data..."):
             with engine.connect() as conn:
                 for chunk in pd.read_sql(
-                    """SELECT route, "date", "time", avg_travel_time, trip_count, trip_type, junction_start, junction_end FROM prod.fact_trips""",
+                    """SELECT route, "date", "time", avg_travel_time, trip_count, trip_type, junction_start, junction_end FROM prod.fact_trips LIMIT 300000""",
                     con=conn.connection,
                     chunksize=100000
                 ):
