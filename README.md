@@ -1,5 +1,11 @@
 # Smart Dublin Traffic Insights: End-to-End Data Pipeline for Journey Time Insights
 
+## 🚀 Live Dashboard
+
+You can explore the interactive visualisations here:  
+👉 [**Launch the Dashboard**](https://smart-dublin-traffic-insights.streamlit.app/)
+
+
 ## 🚦 Project Overview
 
 **Smart Dublin Traffic Insights** is a cloud-based data engineering solution that processes and analyses journey times across Dublin City. This pipeline automates the extraction of traffic data from Dublin City Council’s trip system, transforms it into analytics-ready formats, and delivers insights via an interactive Streamlit dashboard. The goal is to empower urban planners, transport authorities, and commuters with data-driven traffic insights.
