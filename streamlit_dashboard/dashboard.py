@@ -20,13 +20,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Database Connection
-
-
 @st.cache_resource
 def get_db_engine():
     try:
         engine = create_engine(
-            st.secrets["redshift"]["url"], pool_size=1, max_overflow=0
+            st.secrets["redshift"]["url"], pool_size=3, max_overflow=2
         )
         logger.info("Created new engine with connection pool")
         return engine
@@ -36,9 +34,7 @@ def get_db_engine():
         st.stop()
 
 # Data Loading with Memory Management
-
-
-@st.cache_data(show_spinner="Loading traffic data...", max_entries=1)
+@st.cache_data(persist="disk", show_spinner="Loading traffic data...", max_entries=1)
 def load_data():
     engine = get_db_engine()
     chunks = []
@@ -48,7 +44,7 @@ def load_data():
         with st.spinner("Loading trip data..."):
             with engine.connect() as conn:
                 for chunk in pd.read_sql(
-                    """SELECT route, "date", "time", avg_travel_time, trip_count, trip_type, junction_start, junction_end FROM prod.fact_trips LIMIT 300000""",
+                    """SELECT route, "date", "time", avg_travel_time, trip_count, trip_type, junction_start, junction_end FROM prod.fact_trips LIMIT 200000""",
                     con=conn.connection,
                     chunksize=100000
                 ):
@@ -81,8 +77,6 @@ def load_data():
     #     logger.info("Database connections cleaned up")
 
 # Data Processing
-
-
 def process_data(fact_trips, dim_routes):
     try:
         # Convert datatypes
@@ -123,8 +117,6 @@ def process_data(fact_trips, dim_routes):
         # logger.info(f"Pre-visualization memory: {mem:.1f} MB")
 
 # Visualization
-
-
 def safe_plotly_chart(fig):
     """Render Plotly charts with error handling"""
     try:
@@ -137,8 +129,6 @@ def safe_plotly_chart(fig):
         st.error(f"Chart rendering failed: {str(e)}")
 
 # Main Application
-
-
 def main():
     # Load data
     fact_trips, dim_routes, dim_junctions = load_data()
@@ -401,7 +391,6 @@ def main():
 
     **Note**: Travel time units assumed to be seconds
     """)
-
 
 if __name__ == "__main__":
     try:
